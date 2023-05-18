@@ -4,6 +4,11 @@
   "description": "Convert a markdown document to pukiwiki format",
   "version": "0.0.1",
   "license": "MIT",
+  "publisher": "hellososhi",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hellososhi/md2pukiwiki.git"
+  },
   "engines": {
     "vscode": "^1.78.0"
   },
