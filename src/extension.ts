@@ -12,6 +12,9 @@ export function activate(context: vscode.ExtensionContext) {
 const convert = () => {
   const editor = vscode.window.activeTextEditor;
   const document = editor?.document;
+  if (document?.languageId !== "markdown") {
+    return;
+  }
   const text = document?.getText();
   const lines = text?.split("\n");
   const convertedLines = lines?.map((line) => {

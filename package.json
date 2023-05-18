@@ -2,7 +2,7 @@
   "name": "md2pukiwiki",
   "displayName": "md2pukiwiki",
   "description": "Convert a markdown document to pukiwiki format",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "license": "MIT",
   "publisher": "hellososhi",
   "repository": {
