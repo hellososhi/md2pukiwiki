@@ -45,7 +45,9 @@ const convert = () => {
   console.log(convertedLines?.join("\n"));
   // save txt file
   vscode.workspace.fs.writeFile(
-    vscode.Uri.parse(document?.fileName + ".txt"),
+    vscode.Uri.parse(
+      document?.fileName.split(".").slice(0, -1).join(".") + ".txt"
+    ),
     Buffer.from(convertedLines?.join("\n") ?? "")
   );
 };
