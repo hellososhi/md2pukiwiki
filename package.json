@@ -3,19 +3,23 @@
   "displayName": "md2pukiwiki",
   "description": "Convert a markdown document to pukiwiki format",
   "version": "0.0.1",
+  "license": "MIT",
   "engines": {
     "vscode": "^1.78.0"
   },
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onLanguage:markdown"
+  ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "md2pukiwiki.helloWorld",
-        "title": "Hello World"
+        "command": "md2pukiwiki.convert",
+        "title": "Convert Markdown to Pukiwiki",
+        "category": "Markdown"
       }
     ]
   },
@@ -45,5 +49,9 @@
     "typescript": "^5.0.4",
     "webpack": "^5.81.0",
     "webpack-cli": "^5.0.2"
+  },
+  "volta": {
+    "node": "18.16.0",
+    "yarn": "1.22.19"
   }
 }

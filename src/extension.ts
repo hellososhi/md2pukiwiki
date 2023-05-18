@@ -1,26 +1,48 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
-import * as vscode from 'vscode';
+import * as vscode from "vscode";
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
+// convert on save
 export function activate(context: vscode.ExtensionContext) {
-
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "md2pukiwiki" is now active!');
-
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('md2pukiwiki.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from md2pukiwiki!');
-	});
-
-	context.subscriptions.push(disposable);
+  let disposable = vscode.workspace.onDidSaveTextDocument((document) => {
+    convert(document);
+  });
+  context.subscriptions.push(disposable);
 }
+
+const convert = (document: vscode.TextDocument) => {
+  const text = document?.getText();
+  const lines = text?.split("\n");
+  const convertedLines = lines?.map((line) => {
+    let tempLine = line;
+    // convert bold
+    tempLine = tempLine.replace(/\*\*(.*?)\*\*/g, (match, p1) => {
+      return "$" + p1 + "$";
+    });
+    // convert list
+    tempLine = tempLine.replace(
+      /^(\s*)([\*-\+]+)(.*)$/,
+      (match, p1, p2, p3) => {
+        const level = p2.length;
+        return p1 + "-".repeat(level) + p3;
+      }
+    );
+    // convert header
+    tempLine = tempLine.replace(/^(#+)(.*)$/, (match, p1, p2) => {
+      const level = p1.length;
+      return "*".repeat(level) + p2;
+    });
+    // convert quote
+    tempLine = tempLine.replace(/^(\s*)(>)(.*)$/, (match, p1, p2, p3) => {
+      return p1 + "&&" + p3;
+    });
+    return tempLine;
+  });
+  console.log(convertedLines?.join("\n"));
+  // save txt file
+  vscode.workspace.fs.writeFile(
+    vscode.Uri.parse(document?.fileName + ".txt"),
+    Buffer.from(convertedLines?.join("\n") ?? "")
+  );
+};
 
 // This method is called when your extension is deactivated
 export function deactivate() {}
